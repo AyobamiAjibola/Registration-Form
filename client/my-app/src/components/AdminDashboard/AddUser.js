@@ -9,7 +9,7 @@ import { regValues, emailPattern, password } from '../utils/helpers';
 import { toast } from "react-toastify";
 import VisibilityOff from '@mui/icons-material/VisibilityOff';
 import Visibility from '@mui/icons-material/Visibility';
-import HighlightOffIcon from '@mui/icons-material/HighlightOff';
+import Close from '@mui/icons-material/Close';
 
 export default function Form(props) {
 
@@ -78,17 +78,15 @@ const [isPending, setIsPending] = useState(false);
     <Grid mt={6} mb={6} >
       <Grid item container
         spacing={3}
-        sx={{ maxWidth: "60%", margin: 'auto', boxShadow: 5, paddingRight: 4, backgroundColor: 'white' }}
+        bgcolor={"background.default"}
+        color={"text.primary"}
+        sx={{ maxWidth: "60%", margin: 'auto', boxShadow: 5, paddingRight: 4 }}
         component="form" onSubmit={handleSubmit(onSubmit)}
       >
         <Grid item xs={12} sm={12}>
-          <Box  sx={{float:'right'}} mt={3}>
+          <Box  sx={{float:'right'}}>
             <IconButton onClick={handleClick}>
-              <HighlightOffIcon
-                sx={{color: 'red',
-                fontSize: 30, '&:hover':
-                {backgroundColor: 'red', color: 'white'} }}
-              />
+              <Close sx={{color: "red"}}/>
             </IconButton>
           </Box>
         </Grid>

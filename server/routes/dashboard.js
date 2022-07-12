@@ -32,7 +32,7 @@ transporter.verify((err, success) => {
 router.get("/users", async (req, res) => {
   try {
     const user = await pool.query(
-      "SELECT user_id, fname, lname, user_email, username FROM users"
+      "SELECT * FROM users WHERE username != 'demo'"
     );
 
     res.json(user.rows);

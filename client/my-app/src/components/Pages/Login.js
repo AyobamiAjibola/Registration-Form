@@ -4,7 +4,6 @@ import Button from '@mui/material/Button';
 import CssBaseline from '@mui/material/CssBaseline';
 import TextField from '@mui/material/TextField';
 import LoginIcon from '@mui/icons-material/Login';
-import Link from '@mui/material/Link';
 import Box from '@mui/material/Box';
 import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import Typography from '@mui/material/Typography';
@@ -14,20 +13,27 @@ import { FormControl, IconButton, InputAdornment, InputLabel, OutlinedInput } fr
 import Visibility from '@mui/icons-material/Visibility';
 import VisibilityOff from '@mui/icons-material/VisibilityOff';
 import { useForm } from "react-hook-form";
-import { emailPattern, loginValues, password } from '../utils/helpers';
+import { emailPattern, password } from '../utils/helpers';
 import { toast } from "react-toastify";
+import { Link } from 'react-router-dom';
+import CloseIcon from '@mui/icons-material/Close';
 
 function Copyright(props) {
   return (
     <Typography variant="body2" color="text.secondary" align="center" {...props}>
       {'Copyright © '}
-      <Link color="inherit" href="localhost:3000/">
+      <Link to='/'>
         Registration Form
       </Link>{' '}
       {new Date().getFullYear()}
       {'.'}
     </Typography>
   );
+}
+
+const loggedValues = {
+  user_email: 'demo@gmail.com',
+  user_password: 'Demo12345'
 }
 
 const theme = createTheme();
@@ -54,7 +60,7 @@ export default function Login({ setAuth }) {
   };
 
   const { register, handleSubmit, formState: { errors } } = useForm({
-    defaultValues: loginValues,
+    defaultValues: loggedValues,
     mode: 'onTouched',
     criteriaMode: 'firstError',
     reValidateMode: 'onBlur'
@@ -103,10 +109,22 @@ export default function Login({ setAuth }) {
             alignItems: 'center',
             boxShadow: 4,
             mb: 5,
-            borderRadius: 1
+            borderRadius: 1,
+            backgroundColor: "white"
           }}
         >
-          <Avatar sx={{ m: 1, bgcolor: '#51087E', mt: 4}}  >
+          <Box
+            sx={{
+              display: "flex",
+              justifyContent: "right",
+              width: "100%"
+            }}
+          >
+            <IconButton sx={{mt: 1, mr: 1}} component={Link} to='/'>
+              <CloseIcon size='large' sx={{color: "red"}}/>
+            </IconButton>
+          </Box>
+          <Avatar sx={{ m: 1, bgcolor: '#51087E'}}  >
             <LockOutlinedIcon />
           </Avatar>
           <Typography component="h1" variant="h5">

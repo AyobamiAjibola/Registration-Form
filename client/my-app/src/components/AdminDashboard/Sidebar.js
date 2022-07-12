@@ -20,11 +20,9 @@ import PersonOutlineIcon from '@mui/icons-material/PersonOutline';
 import PersonAddAltIcon from '@mui/icons-material/PersonAddAlt';
 import AccountBoxIcon from '@mui/icons-material/AccountBox';
 import ModeNightIcon from '@mui/icons-material/ModeNight';
-import { Link } from "react-router-dom";
-import { Outlet } from 'react-router-dom';
+import { Outlet, Link } from 'react-router-dom';
 import DiamondIcon from '@mui/icons-material/Diamond';
 import { Switch, Box } from '@mui/material';
-import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 import LogoutIcon from '@mui/icons-material/Logout';
 import { toast } from "react-toastify";
 
@@ -95,24 +93,6 @@ const Drawer = styled(MuiDrawer, { shouldForwardProp: (prop) => prop !== 'open' 
   }),
 );
 
-const Icons = styled(Box)(({ theme }) => ({
-  display: "none",
-  alignItems: "center",
-  gap: "20px",
-  [theme.breakpoints.up("sm")]: {
-    display: "flex",
-  },
-}));
-
-const UserBox = styled(Box)(({ theme }) => ({
-  display: "flex",
-  alignItems: "center",
-  gap: "10px",
-  [theme.breakpoints.up("sm")]: {
-    display: "none",
-  },
-}));
-
 export default function Sidebar(props) {
   const theme = useTheme();
   const [open, setOpen] = useState(false);
@@ -182,20 +162,11 @@ export default function Sidebar(props) {
             <MenuIcon />
           </IconButton>
               <Typography component="div" variant="h6" sx={{ display: { xs: "none", sm: "block" }, flexGrow: 1 }}>
-                REG
+                REGISTRATION FORM PORTAL
               </Typography>
               <Typography component="div" sx={{ display: { xs: "block", sm: "none" }, flexGrow: 1 }}>
                 <DiamondIcon/>
               </Typography>
-              <Icons>
-              <Typography variant="span">John</Typography>
-                <AccountCircleIcon
-                  fontSize="large"
-                />
-              </Icons>
-              <UserBox>
-                <Typography variant="span">John</Typography>
-              </UserBox>
         </Toolbar>
       </AppBar>
       <Drawer variant="permanent" open={open}>
@@ -245,10 +216,10 @@ export default function Sidebar(props) {
         </List>
         <Divider />
         <List>
-        <ListItem disablePadding sx={{ ml: 2 }}>
-          <ListItemIcon>
-            <ModeNightIcon />
-          </ListItemIcon>
+          <ListItem disablePadding sx={{ ml: 2 }}>
+            <ListItemIcon>
+              <ModeNightIcon />
+            </ListItemIcon>
             <Switch onChange={e=>props.setMode(props.mode === "light" ? "dark" : "light")} />
           </ListItem>
         </List>
@@ -257,10 +228,14 @@ export default function Sidebar(props) {
         <DrawerHeader />
         <Box
           component="div"
-          sx={{backgroundColor: 'rgba(191, 64, 191, 0.1)',
-          borderRadius: 6,
+          bgColor={"background.default"}
+          color={"text.primary"}
+          sx={{
+          boxShadow: 3,
+          borderRadius: 2,
           paddingBottom: 5,
-          paddingTop: 5
+          paddingTop: 5,
+          marginRight: 2
         }}
         >
           <Outlet />

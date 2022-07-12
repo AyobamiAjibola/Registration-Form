@@ -20,7 +20,12 @@ const { error, isPending, data: datas } = useFetch('http://localhost:5000/dashbo
         spacing={3}
         bgcolor={"background.default"}
         color={"text.primary"}
-        sx={{ maxWidth: "60%", margin: 'auto', boxShadow: 5, paddingRight: 4 }}
+        sx={{
+          maxWidth: "60%",
+          margin: 'auto',
+          paddingRight: 4,
+          border: "1px solid #EFEFEF"
+        }}
         component="div"
       >
         <Grid item sx={{margin: 'auto'}}>

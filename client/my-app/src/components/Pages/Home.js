@@ -1,4 +1,3 @@
-import React, {useEffect} from 'react';
 import {
   Button,
   Card,
@@ -11,6 +10,7 @@ import {
   Typography } from '@mui/material';
 import { keyframes } from '@mui/system';
 import bg from "../../Images/home.png";
+import { Link } from 'react-router-dom';
 
 const Item = styled(Paper)(({ theme }) => ({
   backgroundColor: theme.palette.mode === 'dark' ? '#1A2027' : '#fff',
@@ -41,17 +41,39 @@ const Btn = styled(Button)({
 
 function Home({setMode}) {
 
-  useEffect(() => {
-    document.body.style.backgroundImage = `url('${bg}')`;
-  })
   return (
-    <Grid sx={{ flexGrow: 1 }} container>
+    <Grid
+    sx={{
+        flexGrow: 1,
+        backgroundImage: `url('${bg}')`,
+        height: "100vh",
+        width: "100%"
+        }} container
+      >
       <CssBaseline />
+      <Grid item xs={12} mr={5}
+        sx={{
+            display: "flex",
+            justifyContent: "right",
+            alignItems: "center"
+          }}
+        >
+        <Button variant="contained" component={Link} to='/login'
+          sx={{
+            backgroundColor: "transparent",
+            border: "1px solid white",
+            color: "white",
+            boxShadow: 5,
+            '&:hover': {backgroundColor: "#51087E", color: "white"}
+          }}
+        >
+          login
+        </Button>
+      </Grid>
       <Grid item xs={12}>
           <Typography
             variant="h4"
             align="center"
-            pt={7}
             sx={{color: "white", fontWeight: "bold"}}
           >
             OUR PACKAGES

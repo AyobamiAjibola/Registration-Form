@@ -17,7 +17,8 @@ import Students from './components/AdminDashboard/Students';
 import StudentDetail from './components/AdminDashboard/StudentDetail';
 import EditForm from './components/AdminDashboard/EditForm';
 import AddStudent from './components/AdminDashboard/AddStudent';
-import { createTheme, ThemeProvider } from "@mui/material";
+import { Box, createTheme, ThemeProvider } from "@mui/material";
+import UnknownLink from './components/Pages/UnknownLink';
 
 toast.configure();
 
@@ -60,42 +61,44 @@ function App() {
   return (
     <BrowserRouter>
     <ThemeProvider theme={darkTheme}>
-      <Routes>
-        <Route element={<Sidebar setAuth={setAuth} setMode={setMode} mode={mode} />} >
-            <Route exact path="/dash"
-              element={isAuthenticated ?
-              (<AdminDash setAuth={setAuth} />) : ( <Navigate to="/login" /> )}
-            />
-            <Route exact path="/students"
-              element={isAuthenticated ?
-                (<Students setAuth={setAuth} />) : ( <Navigate to="/login" /> )}
-            />
-            <Route exact path="/details/:id"
-              element={isAuthenticated ?
-                (<StudentDetail setAuth={setAuth} />) : ( <Navigate to="/login" /> )}
-            />
-            <Route exact path="/edit/:id"
-              element={isAuthenticated ?
-                (<EditForm setAuth={setAuth} setMode={setMode}/>) : ( <Navigate to="/login" /> )}
-            />
-            <Route exact path="/users"
-              element={isAuthenticated ?
-                (<Users setAuth={setAuth} />) : ( <Navigate to="/login" /> )}
-            />
-            <Route exact path="/new"
-              element={isAuthenticated ?
-                (<AddStudent />) : ( <Navigate to="/login" /> )}
-            />
-        </Route>
-        <Route exact path="/" element={<Home/>}/>
-        <Route exact path="/form" element={<Form/>}/>
-        <Route
-          exact
-          path="/login"
-          element={!isAuthenticated ? (<Login setAuth={setAuth}/>) : (<Navigate to="/dash" />)}
-        />
-        {/* <Route path="*" element= {} /> */}
-      </Routes>
+      <Box bgColor={"background.default"} color={"text.primary"}>
+        <Routes>
+          <Route element={<Sidebar setAuth={setAuth} setMode={setMode} mode={mode} />} >
+              <Route exact path="/dash"
+                element={isAuthenticated ?
+                (<AdminDash setAuth={setAuth} />) : ( <Navigate to="/login" /> )}
+              />
+              <Route exact path="/students"
+                element={isAuthenticated ?
+                  (<Students setAuth={setAuth} />) : ( <Navigate to="/login" /> )}
+              />
+              <Route exact path="/details/:id"
+                element={isAuthenticated ?
+                  (<StudentDetail setAuth={setAuth} />) : ( <Navigate to="/login" /> )}
+              />
+              <Route exact path="/edit/:id"
+                element={isAuthenticated ?
+                  (<EditForm setAuth={setAuth} setMode={setMode}/>) : ( <Navigate to="/login" /> )}
+              />
+              <Route exact path="/users"
+                element={isAuthenticated ?
+                  (<Users setAuth={setAuth} />) : ( <Navigate to="/login" /> )}
+              />
+              <Route exact path="/new"
+                element={isAuthenticated ?
+                  (<AddStudent />) : ( <Navigate to="/login" /> )}
+              />
+          </Route>
+          <Route exact path="/" element={<Home/>}/>
+          <Route exact path="/form" element={<Form/>}/>
+          <Route
+            exact
+            path="/login"
+            element={!isAuthenticated ? (<Login setAuth={setAuth}/>) : (<Navigate to="/dash" />)}
+          />
+          <Route path="*" element= {<UnknownLink/>} />
+        </Routes>
+      </Box>
       </ThemeProvider>
     </BrowserRouter>
   );

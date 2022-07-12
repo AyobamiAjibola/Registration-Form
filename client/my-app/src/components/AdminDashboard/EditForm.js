@@ -75,7 +75,12 @@ useEffect(() => {
         spacing={3}
         bgcolor={"background.default"}
         color={"text.primary"}
-        sx={{ maxWidth: "60%", margin: 'auto', boxShadow: 5, paddingRight: 4}}
+        sx={{
+          maxWidth: "60%",
+          margin: 'auto',
+          paddingRight: 4,
+          border: "1px solid #EFEFEF"
+        }}
         component='form'
         encType="multipart/form-data"
         onSubmit={handleSubmit(onSubmit)}
@@ -504,7 +509,7 @@ useEffect(() => {
                 width: "30ch",
                 boxShadow: 4,
                 "&:hover": { backgroundColor: "white", color: "#51087E" }
-            }}
+              }}
           >
             Send
           </Button>

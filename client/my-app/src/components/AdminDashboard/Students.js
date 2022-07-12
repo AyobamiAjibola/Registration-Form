@@ -6,13 +6,14 @@ import TableContainer from '@mui/material/TableContainer';
 import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
-import { Avatar, Box, Button, Grid, LinearProgress, Typography } from '@mui/material';
+import { Avatar, Backdrop, Box, Button, Fade, Grid, LinearProgress, Modal, Typography } from '@mui/material';
 import AddCircleIcon from '@mui/icons-material/AddCircle';
 import { Link } from "react-router-dom";
 import { styled } from '@mui/material/styles';
 import IconButton from '@mui/material/IconButton';
 import DeleteIcon from '@mui/icons-material/Delete';
 import Pagination from './Pagination';
+import WarningOutlinedIcon from '@mui/icons-material/WarningOutlined';
 
 
 const DelBox = styled(Box)(({ theme }) => ({
@@ -33,9 +34,24 @@ const Icon = styled(Box)(({ theme }) => ({
   },
 }));
 
+const style = {
+  position: 'absolute',
+  top: '50%',
+  left: '50%',
+  transform: 'translate(-50%, -50%)',
+  width: 400,
+  bgcolor: 'background.paper',
+  border: '2px solid #000',
+  boxShadow: 24,
+  p: 4,
+  display: "flex",
+  justifyContent: "center",
+  alignItems: "center",
+  flexDirection: "column"
+};
+
 export default function Students({setAuth}) {
 
-  // const theme = useTheme();
   const [datas, setDatas] = useState([]);
   const [usersChange, setUsersChange] = useState(false);
   const [error, setError] = useState(null);
@@ -43,6 +59,11 @@ export default function Students({setAuth}) {
   const [query, setQuery] = useState("");
   const [currentPage, setCurrentPage] = useState(1);
   const [postsPerPage] = useState(10);
+  const [delID, setDelId] = useState(null);
+  const [open, setOpen] = useState(false);
+
+  const handleOpen = () => setOpen(true);
+  const handleClose = () => setOpen(false);
 
   const getStudents = async () => {
     try {
@@ -60,13 +81,14 @@ export default function Students({setAuth}) {
     }
   };
 
-  async function deleteForm(id) {
+  async function deleteForm() {
     try {
-      await fetch(`http://localhost:5000/dashboard/form/${id}`, {
+      await fetch(`http://localhost:5000/dashboard/form/${delID}`, {
         method: "DELETE"
       });
 
-      setDatas(datas.filter(data => data.form_id !== id));
+      setDatas(datas.filter(data => data.form_id !== delID));
+      handleClose();
     } catch (err) {
       console.error(err.message);
     }
@@ -165,7 +187,6 @@ export default function Students({setAuth}) {
                           backgroundColor: 'green',
                           border: 'none',
                           color: 'white',
-                          mt: 2,
                           ml: 3
                         }}
                       >
@@ -175,18 +196,24 @@ export default function Students({setAuth}) {
                   <TableCell align="center">
                     <DelBox>
                       <Button
-                        startIcon={<DeleteIcon />}
-                        sx={{'&:hover': {color: 'red', backgroundColor: 'white', border: 'none', boxShadow: 4},
-                            backgroundColor: 'red',
-                            border: 'none',
-                            color: 'white',
-                            mt: 2,
-                            ml: 3
-                          }}
-                        data-bs-toggle="modal"
-                        data-bs-target="#exampleModal"
+                        variant='contained'
+                        onClick={() => {
+                          setDelId(data.form_id);
+                          handleOpen();
+                        }}
+                        sx={{
+                          '&:hover':
+                            {color: 'red',
+                              backgroundColor: 'white',
+                              border: 'none',
+                              boxShadow: 4
+                            },
+                          backgroundColor: 'red',
+                          border: 'none',
+                          color: 'white'
+                        }}
                       >
-                        Delete
+                        delete
                       </Button>
                     </DelBox>
                     <Icon>
@@ -201,40 +228,14 @@ export default function Students({setAuth}) {
                           }}
                         data-bs-toggle="modal"
                         data-bs-target="#exampleModal"
+                        onClick={() => {
+                          setDelId(data.user_id);
+                          handleOpen();
+                        }}
                       >
                         <DeleteIcon />
                       </IconButton>
                     </Icon>
-                      {/* Modal */}
-                      <div className="modal fade" id="exampleModal" tabIndex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-                        <div className="modal-dialog modal-dialog-centered">
-                          <div className="modal-content">
-                            <div className="modal-header">
-                              <h5 className="modal-title" id="exampleModalLabel">Confirmation</h5>
-                              <button type="button" className="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                            </div>
-                            <div className="modal-body">
-                              Are you certain you want to delete this user?
-                            </div>
-                            <div className="modal-body">
-                              Click "YES" to confirm.
-                            </div>
-                            <div className="modal-body">
-                              Click "NO" to return back to the previous page.
-                            </div>
-                            <div className="modal-footer">
-                              <button
-                                type="button"
-                                className="btn btn-danger"
-                                data-bs-dismiss="modal"
-                                onClick={() => deleteForm(data.form_id)}>
-                                YES
-                              </button>
-                              <button type="button" className="btn btn-primary" data-bs-dismiss="modal">NO</button>
-                            </div>
-                          </div>
-                        </div>
-                      </div>
                   </TableCell>
                 </TableRow>
                 ))) : <Typography component='em' sx={{color: 'red', m: 2 }}>{error}</Typography>}
@@ -249,6 +250,59 @@ export default function Students({setAuth}) {
           </Box>
         </TableContainer>
       </Grid>
+      <Modal
+          open={open}
+          onClose={handleClose}
+          aria-labelledby="modal-modal-title"
+          aria-describedby="modal-modal-description"
+          closeAfterTransition
+          BackdropComponent={Backdrop}
+          BackdropProps={{
+            timeout: 500,
+          }}
+        >
+          <Fade in={open}>
+            <Box sx={style}>
+              <Typography id="modal-modal-title" variant="h5" component="h2" sx={{fontWeight: 600}}>
+                Confirmation <WarningOutlinedIcon sx={{color: "black"}} />
+              </Typography>
+              <Typography id="modal-modal-description" sx={{ mt: 2, fontWeight: 500, color: "red", mb: 3, textAlign: "center" }}>Are you sure you want to delete this contestant?</Typography>
+              <Box sx={{display: "flex", justifyContent: "center"}}>
+                <Button
+                  onClick={deleteForm}
+                  size="small"
+                  variant="contained"
+                  sx={{
+                    mb: 2,
+                    mr: 5,
+                    width: "50%",
+                    color: "white",
+                    backgroundColor: "red",
+                    boxShadow: 4,
+                    "&:hover": { backgroundColor: "white", color: "red" }
+                  }}
+                >
+                  YES
+                </Button>
+                <Button
+                  onClick={handleClose}
+                  size="small"
+                  variant="contained"
+                  sx={{
+                    mb: 2,
+                    width: "50%",
+                    color: "white",
+                    backgroundColor: "green",
+                    boxShadow: 4,
+                    "&:hover": { backgroundColor: "white", color: "green" }
+                  }}
+                >
+                  NO
+                </Button>
+              </Box>
+            </Box>
+          </Fade>
+        </Modal>
     </Grid>
   );
 }

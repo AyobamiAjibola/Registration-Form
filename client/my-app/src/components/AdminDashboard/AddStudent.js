@@ -6,7 +6,7 @@ import TextField from '@mui/material/TextField';
 import { AdapterDateFns } from '@mui/x-date-pickers/AdapterDateFns';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { useForm } from "react-hook-form";
-import { Button } from '@mui/material';
+import { Box, Button, CircularProgress } from '@mui/material';
 import SendIcon from '@mui/icons-material/Send';
 import { defaultValues, phonePattern, emailPattern, currencyPattern } from '../utils/helpers';
 import {useNavigate} from "react-router-dom";
@@ -18,7 +18,7 @@ export default function AddStudent() {
   const [dob, setDob] = useState(new Date());
   const [date_comm, setDate_comm] = useState(new Date());
   const [fileName, setFileName] = useState('');
-  const [setIsPending] = useState(false);
+  const [isPending, setIsPending] = useState(false);
 
   const { register, handleSubmit, formState: { errors } } = useForm({
       defaultValues: defaultValues,
@@ -67,7 +67,14 @@ export default function AddStudent() {
     <Grid mt={6} mb={6} >
       <Grid container
         spacing={3}
-        sx={{ maxWidth: "60%", margin: 'auto', boxShadow: 5, paddingRight: 4, backgroundColor: 'white' }}
+        bgcolor={"background.default"}
+        color={"text.primary"}
+        sx={{
+          maxWidth: "60%",
+          margin: 'auto',
+          paddingRight: 4,
+          border: "1px solid #EFEFEF"
+        }}
         component="form" onSubmit={handleSubmit(onSubmit)}
         encType="multipart/form-data"
       >
@@ -385,11 +392,11 @@ export default function AddStudent() {
         </Grid>
         <Grid item xs={12} sm={6}>
             <input
-                className="form-control form-control-lg"
-                id="formFileLg"
-                type="file"
-                name="image"
-                onChange={onChangeFile}
+              className="form-control form-control-lg"
+              id="formFileLg"
+              type="file"
+              name="image"
+              onChange={onChangeFile}
             />
             <Typography
                 variant='body'
@@ -448,6 +455,7 @@ export default function AddStudent() {
         >
           Send
         </Button>
+        { isPending && <Box container sx={{textAlign: 'center'}} ><CircularProgress color="success" /></Box>}
         </Grid>
       </Grid>
     </Grid>
